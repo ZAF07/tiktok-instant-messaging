@@ -1,0 +1,11 @@
+http:
+  port: 8000
+  readTimeout: 15
+  writeTimeout: 15
+
+rpcservice:
+  port: 9000
+  method: RPC
+  keepalive:
+    max_con_age: 10
+    max_con_grace: 10
