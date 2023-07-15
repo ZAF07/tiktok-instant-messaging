@@ -1,54 +1,65 @@
 package config
 
-type AppConfig struct {
-	http       `mapstructure:"http" json:"http"`
-	rpcservice `mapstructure:"rpcservice" json:"rpcservice"`
-}
+import (
+	"sync"
+)
 
-func NewAppConfig() *AppConfig {
-	return &AppConfig{
-		http:       http{port: ":8080"},
-		rpcservice: rpcservice{port: "999", method: "rpc", keepalive: keepalive{max_con_age: 1, max_con_grace: 1}},
-	}
+var appConfig *ApplicationConfig
+var once sync.Once
 
+type HTTPServiceConfig struct {
+	Http       http `mapstructure:"http"`
+	Rpcservice `mapstructure:"rpcservice" json:"rpcservice"`
 }
 
 type http struct {
-	port         string `mapstructure:"port"`
-	readTimeout  int    `mapstructure:"readTimeout"`
-	writeTimeout int    `mapstructure:"writeTimeout"`
+	Port         string `mapstructure:"port"`
+	ReadTimeout  int    `mapstructure:"readTimeout"`
+	WriteTimeout int    `mapstructure:"writeTimeout"`
 }
 
-func (h *http) GetHTTPPort() string {
-	return h.port
+type Rpcservice struct {
+	Port        string `mapstructure:"port"`
+	Method      string `mapstructure:"method"`
+	MaxConAge   int    `mapstructure:"max_con_age"`
+	MaxConGrace int    `mapstructure:"max_con_grace"`
 }
 
-func (h *http) GetReadTimeout() int {
-	return h.readTimeout
+type ApplicationConfig struct {
+	config HTTPServiceConfig
 }
 
-func (h *http) GetWriteTimeout() int {
-	return h.writeTimeout
+func InitAppConfig() *ApplicationConfig {
+	once.Do(func() {
+		serviceConfig := loadServiceConfig()
+		appConfig = &ApplicationConfig{
+			config: *serviceConfig,
+		}
+	})
+	return appConfig
 }
 
-type rpcservice struct {
-	port      string `mapstructure:"port"`
-	method    string `mapstructure:"method"`
-	keepalive `mapstructure:"keepalive"`
+func (ac *ApplicationConfig) GetPortHTTP() string {
+	return ac.config.Http.Port
 }
 
-type keepalive struct {
-	max_con_age   int `mapstructure:"max_con_age"`
-	max_con_grace int `mapstructure:"max_con_grace"`
+func (ac *ApplicationConfig) GetReadTimeoutHTTP() int {
+	return ac.config.Http.ReadTimeout
+}
+func (ac *ApplicationConfig) GetWriteTimeoutHTTP() int {
+	return ac.config.Http.WriteTimeout
 }
 
-func (r *rpcservice) GetRPCServicePort() string {
-	return r.port
+// RPC SERVICE CONFIG
+func (ac *ApplicationConfig) GetPortRPC() string {
+	return ac.config.Rpcservice.Port
 }
-
-func (r *rpcservice) GetRPCServiceMaxConAge() int {
-	return r.keepalive.max_con_age
+func (ac *ApplicationConfig) GetMethodRPC() string {
+	return ac.config.Rpcservice.Method
 }
-func (r *rpcservice) GetRPCServiceMaxConGrace() int {
-	return r.keepalive.max_con_grace
+func (ac *ApplicationConfig) GetMaxConAgeRPC() int {
+	return ac.config.Rpcservice.MaxConAge
+}
+func (ac *ApplicationConfig) GetMaxConGraceRPC() int {
+	return ac.config.Rpcservice.MaxConGrace
 }

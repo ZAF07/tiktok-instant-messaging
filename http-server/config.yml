@@ -6,6 +6,5 @@ http:
 rpcservice:
   port: 9000
   method: RPC
-  keepalive:
-    max_con_age: 10
-    max_con_grace: 10
+  max_con_age: 10
+  max_con_grace: 10
