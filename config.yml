@@ -20,3 +20,7 @@ datastore:
   name: "tiktok_instant_message"
   ssl: disable
   max_conns: 50 
+
+  # 💡 TODO: INCLUDE CONFIGS FORR REDIS SERVER
+  # 💡 TODO: ADD GITHOOKS FOR CHECKS ON COMMIT
+  # 💡 TODO: SET UP COMPOSE TO START ALL SERVICES AT ONCE IN A UNIFORM ENVIRONMENT
