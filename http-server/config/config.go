@@ -8,17 +8,18 @@ var appConfig *ApplicationConfig
 var once sync.Once
 
 type HTTPServiceConfig struct {
-	Http       http `mapstructure:"http"`
-	Rpcservice `mapstructure:"rpcservice" json:"rpcservice"`
+	Http `mapstructure:"http"`
+	Rpc  `mapstructure:"rpcservice" json:"rpc"`
 }
 
-type http struct {
-	Port         string `mapstructure:"port"`
-	ReadTimeout  int    `mapstructure:"readTimeout"`
-	WriteTimeout int    `mapstructure:"writeTimeout"`
+type Http struct {
+	Port         string   `mapstructure:"port"`
+	ReadTimeout  int      `mapstructure:"readTimeout"`
+	WriteTimeout int      `mapstructure:"writeTimeout"`
+	Cors         []string `mapstructure:"cors_allow_origin"`
 }
 
-type Rpcservice struct {
+type Rpc struct {
 	Port        string `mapstructure:"port"`
 	Method      string `mapstructure:"method"`
 	MaxConAge   int    `mapstructure:"max_con_age"`
@@ -49,17 +50,20 @@ func (ac *ApplicationConfig) GetReadTimeoutHTTP() int {
 func (ac *ApplicationConfig) GetWriteTimeoutHTTP() int {
 	return ac.config.Http.WriteTimeout
 }
+func (ac *ApplicationConfig) GetCorsAllowOrigins() []string {
+	return ac.config.Cors
+}
 
 // RPC SERVICE CONFIG
 func (ac *ApplicationConfig) GetPortRPC() string {
-	return ac.config.Rpcservice.Port
+	return ac.config.Rpc.Port
 }
 func (ac *ApplicationConfig) GetMethodRPC() string {
-	return ac.config.Rpcservice.Method
+	return ac.config.Rpc.Method
 }
 func (ac *ApplicationConfig) GetMaxConAgeRPC() int {
-	return ac.config.Rpcservice.MaxConAge
+	return ac.config.Rpc.MaxConAge
 }
 func (ac *ApplicationConfig) GetMaxConGraceRPC() int {
-	return ac.config.Rpcservice.MaxConGrace
+	return ac.config.Rpc.MaxConGrace
 }

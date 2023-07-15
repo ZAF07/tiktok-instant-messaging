@@ -2,9 +2,21 @@ http:
   port: 8000
   readTimeout: 15
   writeTimeout: 15
+  cors_allow_origin:
+  - "http://localhost:8080"
 
-rpcservice:
+rpc:
   port: 9000
   method: RPC
   max_con_age: 10
   max_con_grace: 10
+
+datastore:
+  environment: dev
+  port: 5432
+  host: localhost
+  user: zaffere
+  password: ""
+  name: "tiktok_instant_message"
+  ssl: disable
+  max_conns: 50 

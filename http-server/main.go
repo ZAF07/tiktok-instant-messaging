@@ -11,6 +11,7 @@ func main() {
 	fmt.Println("HTTP PORT: ", ap.GetPortHTTP())
 	fmt.Println("HTTP READ TIMEOUT: ", ap.GetReadTimeoutHTTP())
 	fmt.Println("HTTP WRITE TIMEOUT: ", ap.GetWriteTimeoutHTTP())
+	fmt.Println("HTTP CORS: ", ap.GetCorsAllowOrigins())
 
 	// RPC
 	fmt.Println("RPC PORT: ", ap.GetPortRPC())
