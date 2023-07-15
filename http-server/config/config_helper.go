@@ -19,7 +19,7 @@ func parseConfigFile() {
 
 	a := &HTTPServiceConfig{}
 
-	flag.StringVar(&configFilePath, "config", "http-server/config.yml", "Path to config file")
+	flag.StringVar(&configFilePath, "config", "config.yml", "Path to config file")
 	flag.Parse()
 	v := viper.New()
 	v.SetConfigFile(configFilePath)
