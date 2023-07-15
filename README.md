@@ -8,8 +8,9 @@ The instant messaging system implementation includes the following features:
 
 1. Main: Only develop the backend side of the system, focusing on core message features without the front-end part and the account/authentication part
 2. Instant Messaging: Users can send and receive instant messages to and from their contacts.
-3. Message History: Users can view their message history with individual contacts.
+3. Data storage: The system should store messages data. Receivers can access this data at any time. At least one database must be used. There is no limitation on data schema design.
 4. Message Delivery: The system should be able to deliver messages to the intended recipients by PULL mode in a timely and consistent manner.
+5. Must contain a runnable docker-compose.yml
 
 ## Extra features added by myself 
 > Extra features will be placed in a seperate branch withe name: ``additional-features``
