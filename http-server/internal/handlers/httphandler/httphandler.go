@@ -3,6 +3,7 @@ package httphandler
 import (
 	"net/http"
 
+	httpdomain "github.com/ZAF07/tiktok-instant-messaging/http-server/internal/core/domain/http_domain"
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/core/ports"
 	"github.com/gin-gonic/gin"
 )
@@ -27,7 +28,12 @@ func NewHTTPHandler(s ports.IHTTPService) *HTTPHandler {
 }
 
 func (h *HTTPHandler) Push(c *gin.Context) {
-	res := h.service.Push()
+	msg := httpdomain.Message{
+		Text:   "Test message",
+		Sender: "Test Sender",
+	}
+
+	res := h.service.Push(msg)
 	c.JSON(http.StatusOK, gin.H{
 		"msg": res,
 	})

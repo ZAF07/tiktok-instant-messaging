@@ -1,6 +1,10 @@
 package cache
 
-import "log"
+import (
+	"log"
+
+	httpdomain "github.com/ZAF07/tiktok-instant-messaging/http-server/internal/core/domain/http_domain"
+)
 
 /*
 	Driven Adapter
@@ -16,6 +20,6 @@ func NewCache() *Cache {
 	return &Cache{}
 }
 
-func (c *Cache) Save() {
-	log.Println("Saving to cache!!")
+func (c *Cache) Save(msg httpdomain.Message) {
+	log.Printf("Saving to cache!!: %+v\n", msg)
 }
