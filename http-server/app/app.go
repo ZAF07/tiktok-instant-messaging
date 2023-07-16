@@ -1,7 +1,6 @@
 package app
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/core/service"
@@ -35,12 +34,13 @@ type App struct {
 
 func InitApplication() *App {
 	//  Here we initialise all dependencies and construct the App struct
-	/*
-		1. Init HTTP Server
-		2. Init DB
-		3. Init Cache
-		4. Init Services
-		5. Init Handlers
+	/* 💡 TODO:
+	1. Init HTTP Server 👍
+	2. Init DB
+	3. Init Cache
+	4. Init Services 👍
+	5. Init Handlers 👍
+	6. Init RPC Client
 	*/
 
 	// Init all the dependencies
@@ -61,11 +61,8 @@ func (a *App) Start() {
 	s := a.GetServer()
 	h := a.GetHandler()
 	router.NewRouter(h, a.HTTPHandler)
-	// s.Handler = r
-	fmt.Println("ADDR:>>>>>>>>>>>>>>>>>>> ", s.Addr, s.ReadTimeout)
 
 	// Run the server
-	fmt.Println("SERVER STARTING..")
 	if err := s.ListenAndServe(); err != nil {
 		log.Fatalf("error starting server. error msg: %v", err)
 	}
