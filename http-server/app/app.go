@@ -42,7 +42,7 @@ func InitApplication() *App {
 
 	// Init all the dependencies
 	httpServer := httpmanager.NewHTTPServer()
-	cache := cache.NewCache()
+	cache := cache.NewCache() // 💡 TODO: Implement the initialisation of the redis client (NOT THE ADAPTER)
 	db := newDatastore()
 	services := service.NewHTTPService(cache)
 	handlers := httphandler.NewHTTPHandler(services)
@@ -57,7 +57,7 @@ func InitApplication() *App {
 	return a
 }
 
-// Start starts the entire application. It ca
+// Start starts the entire HTTP-SERVER application
 func (a *App) Start() {
 	h := a.GetHandler()
 	router.NewRouter(h, a.HTTPHandler)
