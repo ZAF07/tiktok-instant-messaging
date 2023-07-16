@@ -6,3 +6,7 @@ type IHTTPService interface {
 	Push() string
 	Pull() string
 }
+
+type ICacheStore interface {
+	Save()
+}

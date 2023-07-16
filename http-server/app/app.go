@@ -3,6 +3,7 @@ package app
 import (
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/config"
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/core/service"
+	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/datastore/cache"
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/handlers/httphandler"
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/router"
 
@@ -23,7 +24,7 @@ type App struct {
 	datastore
 	httpmanager.HTTPManager
 	httphandler.HTTPHandler
-	// Cache
+	cache.Cache
 	// Services
 	// Handlers
 	// HTTPServer
@@ -45,8 +46,9 @@ func InitApplication() *App {
 
 	// Init all the dependencies
 	httpServer := httpmanager.NewHTTPServer()
+	cache := cache.NewCache()
 	db := newDatastore()
-	services := service.NewHTTPService()
+	services := service.NewHTTPService(cache)
 	handlers := httphandler.NewHTTPHandler(services)
 
 	// Construct the App struct
@@ -54,6 +56,7 @@ func InitApplication() *App {
 		*db,
 		*httpServer,
 		*handlers,
+		*cache,
 	}
 	return a
 }
