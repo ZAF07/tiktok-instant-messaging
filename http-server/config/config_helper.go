@@ -2,6 +2,7 @@ package config
 
 import (
 	"flag"
+	"fmt"
 	"log"
 
 	"github.com/spf13/viper"
@@ -15,6 +16,7 @@ func loadServiceConfig() *HTTPServiceConfig {
 }
 
 func parseConfigFile() {
+	fmt.Println("PARSING 🚨")
 	var configFilePath string
 
 	a := &HTTPServiceConfig{}

@@ -1,6 +1,8 @@
 package config
 
 import (
+	"errors"
+	"fmt"
 	"sync"
 )
 
@@ -9,7 +11,7 @@ var once sync.Once
 
 type HTTPServiceConfig struct {
 	Http `mapstructure:"http"`
-	Rpc  `mapstructure:"rpcservice" json:"rpc"`
+	Rpc  `mapstructure:"rpc"`
 }
 
 type Http struct {
@@ -40,8 +42,15 @@ func InitAppConfig() *ApplicationConfig {
 	return appConfig
 }
 
+func GetConfig() (*ApplicationConfig, error) {
+	if appConfig != nil {
+		return appConfig, nil
+	}
+	return nil, errors.New("config is not yet initialised")
+}
+
 func (ac *ApplicationConfig) GetPortHTTP() string {
-	return ac.config.Http.Port
+	return fmt.Sprintf(":%v", ac.config.Http.Port)
 }
 
 func (ac *ApplicationConfig) GetReadTimeoutHTTP() int {

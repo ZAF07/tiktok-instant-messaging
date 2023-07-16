@@ -3,10 +3,13 @@ package main
 import (
 	"fmt"
 
+	// "github.com/ZAF07/tiktok-instant-messaging/http-server/app"
+	"github.com/ZAF07/tiktok-instant-messaging/http-server/app"
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/config"
 )
 
 func main() {
+
 	ap := config.InitAppConfig()
 	fmt.Println("HTTP PORT: ", ap.GetPortHTTP())
 	fmt.Println("HTTP READ TIMEOUT: ", ap.GetReadTimeoutHTTP())
@@ -18,13 +21,14 @@ func main() {
 	fmt.Println("RPC METHOD: ", ap.GetMethodRPC())
 	fmt.Println("RPC AGE: ", ap.GetMaxConAgeRPC())
 	fmt.Println("RPC GRACE: ", ap.GetMaxConGraceRPC())
+	httpApp := app.InitApplication()
+	httpApp.Start()
+	// fmt.Println(httpApp.GetDatastore())
+	/*
+		This is where we start the application
 
-	// rpcMaxConn := ap.GetRPCServiceMaxConAge()
-	// rpcMaxGrace := ap.GetRPCServiceMaxConGrace()
-	// fmt.Println("rpc max con: ", rpcMaxConn)
-	// fmt.Println("rpc grace: ", rpcMaxGrace)
-	// // fmt.Println("http timeout: ", ap.GetReadTimeout())
-	// fmt.Println("PORT: ", ap.Http.GetHTTPPort())
-	// fmt.Println("PORT: ", ap.Http.Port)
+		The main package calls the app package to initialise the entire application
+		It then starts the HTTP server (initialised by the app package) passing the required dependencies
+	*/
 
 }
