@@ -8,9 +8,9 @@ func NewHTTPService() *HTTPService {
 }
 
 func (h *HTTPService) Pull() string {
-	return "Pulling"
+	return "Pulling Service"
 }
 
 func (h *HTTPService) Push() string {
-	return "Pushing"
+	return "Pushing Service"
 }

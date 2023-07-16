@@ -27,12 +27,14 @@ func NewHTTPHandler(s ports.IHTTPService) *HTTPHandler {
 }
 
 func (h *HTTPHandler) Push(c *gin.Context) {
+	res := h.service.Push()
 	c.JSON(http.StatusOK, gin.H{
-		"msg": "Pushing",
+		"msg": res,
 	})
 }
 func (h *HTTPHandler) Pull(c *gin.Context) {
+	res := h.service.Pull()
 	c.JSON(http.StatusOK, gin.H{
-		"msg": "Pulling",
+		"msg": res,
 	})
 }

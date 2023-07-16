@@ -45,6 +45,8 @@ func (h *HTTPManager) GetHandler() *gin.Engine {
 	return h.server.Handler.(*gin.Engine)
 }
 
-// func (h *HTTPManager) Start() {
-// 	router.NewRouter(h.server.Handler.(*gin.Engine), )
-// }
+func (h *HTTPManager) StartServer() {
+	if err := h.server.ListenAndServe(); err != nil {
+		log.Fatalf("error starting HTTP server. error msg: %v", err)
+	}
+}

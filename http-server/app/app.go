@@ -1,8 +1,6 @@
 package app
 
 import (
-	"log"
-
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/config"
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/core/service"
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/handlers/httphandler"
@@ -62,14 +60,10 @@ func InitApplication() *App {
 
 // Start starts the entire application. It ca
 func (a *App) Start() {
-	s := a.GetServer()
 	h := a.GetHandler()
 	router.NewRouter(h, a.HTTPHandler)
+	a.StartServer()
 
-	// Run the server
-	if err := s.ListenAndServe(); err != nil {
-		log.Fatalf("error starting server. error msg: %v", err)
-	}
 }
 
 // DB STUFF
