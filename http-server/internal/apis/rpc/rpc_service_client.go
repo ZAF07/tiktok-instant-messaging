@@ -10,7 +10,7 @@ This package implements the interface (ports) of the core service to interact wi
 
 This is only the adapter. The initialisation of the RPC client lives in the /pkg directory.
 
-Each core/services needs to have an instance of this package in its struct field ( just like the database implementation)
+Each core/services needs to have an instance of this package in its struct field to be able to make calls to the outside of the current application ( just like the database implementation)
 
 */
 
