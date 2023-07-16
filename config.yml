@@ -3,7 +3,7 @@ http:
   readTimeout: 15
   writeTimeout: 15
   cors_allow_origin:
-  - "http://localhost:8080"
+  - "http://localhost:8000"
 
 rpc:
   port: 9000

@@ -12,6 +12,7 @@ import (
 /*
 	This package initialises a HTTP server
 	Can be used by any package which needs it
+k
 */
 
 type HTTPManager struct {
@@ -25,8 +26,8 @@ func NewHTTPServer() *HTTPManager {
 	}
 
 	s := &http.Server{
-		ReadTimeout:  time.Duration(c.GetReadTimeoutHTTP()),
-		WriteTimeout: time.Duration(c.GetWriteTimeoutHTTP()),
+		ReadTimeout:  time.Duration(c.GetReadTimeoutHTTP()) * time.Second,
+		WriteTimeout: time.Duration(c.GetWriteTimeoutHTTP()) * time.Second,
 		Handler:      gin.Default(),
 		Addr:         c.GetPortHTTP(),
 	}
@@ -37,6 +38,13 @@ func NewHTTPServer() *HTTPManager {
 }
 
 func (h *HTTPManager) GetServer() *http.Server {
-	h.server.ListenAndServe()
 	return h.server
 }
+
+func (h *HTTPManager) GetHandler() *gin.Engine {
+	return h.server.Handler.(*gin.Engine)
+}
+
+// func (h *HTTPManager) StartServer() {
+// 	router.NewRouter(h.server.Handler.(*gin.Engine), )
+// }

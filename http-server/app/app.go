@@ -4,6 +4,12 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/core/service"
+	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/handlers/httphandler"
+	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/router"
+
+	// httpmanager "github.com/ZAF07/tiktok-instant-messaging/http-server/pkg/http-manager"
+	// httpmanager "github.com/ZAF07/tiktok-instant-messaging/http-server/pkg/http-manager"
 	httpmanager "github.com/ZAF07/tiktok-instant-messaging/http-server/pkg/http-manager"
 )
 
@@ -20,6 +26,7 @@ import (
 type App struct {
 	datastore
 	httpmanager.HTTPManager
+	httphandler.HTTPHandler
 	// Cache
 	// Services
 	// Handlers
@@ -35,18 +42,31 @@ func InitApplication() *App {
 		4. Init Services
 		5. Init Handlers
 	*/
+
+	// Init all the dependencies
 	httpServer := httpmanager.NewHTTPServer()
 	db := newDatastore()
+	services := service.NewHTTPService()
+	handlers := httphandler.NewHTTPHandler(services)
+
+	// Construct the App struct
 	a := &App{
 		*db,
 		*httpServer,
+		*handlers,
 	}
 	return a
 }
 func (a *App) Start() {
+	s := a.GetServer()
+	h := a.GetHandler()
+	router.NewRouter(h, a.HTTPHandler)
+	// s.Handler = r
+	fmt.Println("ADDR:>>>>>>>>>>>>>>>>>>> ", s.Addr, s.ReadTimeout)
+
 	// Run the server
 	fmt.Println("SERVER STARTING..")
-	if err := a.GetServer().ListenAndServe(); err != nil {
+	if err := s.ListenAndServe(); err != nil {
 		log.Fatalf("error starting server. error msg: %v", err)
 	}
 }
