@@ -32,7 +32,7 @@ type ApplicationConfig struct {
 	config HTTPServiceConfig
 }
 
-func InitAppConfig() *ApplicationConfig {
+func LoadConfig() *ApplicationConfig {
 	once.Do(func() {
 		serviceConfig := loadServiceConfig()
 		appConfig = &ApplicationConfig{

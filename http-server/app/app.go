@@ -3,12 +3,11 @@ package app
 import (
 	"log"
 
+	"github.com/ZAF07/tiktok-instant-messaging/http-server/config"
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/core/service"
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/handlers/httphandler"
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/router"
 
-	// httpmanager "github.com/ZAF07/tiktok-instant-messaging/http-server/pkg/http-manager"
-	// httpmanager "github.com/ZAF07/tiktok-instant-messaging/http-server/pkg/http-manager"
 	httpmanager "github.com/ZAF07/tiktok-instant-messaging/http-server/pkg/http-manager"
 )
 
@@ -43,6 +42,9 @@ func InitApplication() *App {
 	6. Init RPC Client
 	*/
 
+	// Load application configs into global struct
+	config.LoadConfig()
+
 	// Init all the dependencies
 	httpServer := httpmanager.NewHTTPServer()
 	db := newDatastore()
@@ -57,6 +59,8 @@ func InitApplication() *App {
 	}
 	return a
 }
+
+// Start starts the entire application. It ca
 func (a *App) Start() {
 	s := a.GetServer()
 	h := a.GetHandler()

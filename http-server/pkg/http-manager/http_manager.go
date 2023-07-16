@@ -45,6 +45,6 @@ func (h *HTTPManager) GetHandler() *gin.Engine {
 	return h.server.Handler.(*gin.Engine)
 }
 
-// func (h *HTTPManager) StartServer() {
+// func (h *HTTPManager) Start() {
 // 	router.NewRouter(h.server.Handler.(*gin.Engine), )
 // }
