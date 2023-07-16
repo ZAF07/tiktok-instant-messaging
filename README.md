@@ -6,28 +6,28 @@ This project is my implementation of a TikTok interview test, where we have been
 ## Main Features
 The instant messaging system implementation includes the following features:
 
-1. Main: Only develop the backend side of the system, focusing on core message features without the front-end part and the account/authentication part
-2. Instant Messaging: Users can send and receive instant messages to and from their contacts.
-3. Data storage: The system should store messages data. Receivers can access this data at any time. At least one database must be used. There is no limitation on data schema design.
-4. Message Delivery: The system should be able to deliver messages to the intended recipients by PULL mode in a timely and consistent manner.
-5. Must contain a runnable docker-compose.yml
+1. **Main**: Only develop the backend side of the system, focusing on core message features without the front-end part and the account/authentication part
+2. **Instant Messaging**: Users can send and receive instant messages to and from their contacts.
+3. **Data storage**: The system should store messages data. Receivers can access this data at any time. At least one database must be used. There is no limitation on data schema design.
+4. **Message Delivery**: The system should be able to deliver messages to the intended recipients by PULL mode in a timely and consistent manner.
+5. **Must** contain a runnable docker-compose.yml
 
 ## Extra features added by myself 
 > Extra features will be placed in a seperate branch withe name: ``additional-features``
-1. User Registration: Users can create new accounts by providing their desired username, email address, and password.
-2. User Authentication: Registered users can log in to the system using their credentials.
-3. User Profiles: Each user has a profile that contains information such as their username, display name, profile picture, and status.
-4. Contact List: Users can manage their contact list, which consists of other registered users.
-6. Message Notifications: Users receive real-time notifications when they receive new messages.
-7. Online/Offline Status: Users can see the online/offline status of their contacts.
+1. **User Registration**: Users can create new accounts by providing their desired username, email address, and password.
+2. **User Authentication**: Registered users can log in to the system using their credentials.
+3. **User Profiles**: Each user has a profile that contains information such as their username, display name, profile picture, and status.
+4. **Contact List**: Users can manage their contact list, which consists of other registered users.
+6. **Message Notifications**: Users receive real-time notifications when they receive new messages.
+7. **Online/Offline Status**: Users can see the online/offline status of their contacts.
 
 ## Technologies Used
 The implementation of this instant messaging system is built using the following technologies:
 
-- Backend Framework: [Go](https://go.dev/)
-- Database: [Postgres](https://www.postgresql.org/)
-- Cache: [Redis](https://redis.io/)
-- Real-Time Communication: [Gorilla Websocket](https://github.com/gorilla/websocket)
+- **Backend Framework**: [Go](https://go.dev/)
+- **Database**: [Postgres](https://www.postgresql.org/)
+- **Cache**: [Redis](https://redis.io/)
+- **Real-Time Communication**: [Gorilla Websocket](https://github.com/gorilla/websocket)
 
 ## Setup Instructions
 To set up and run this instant messaging system on your local machine, follow these instructions:
