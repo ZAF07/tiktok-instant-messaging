@@ -25,17 +25,13 @@ type App struct {
 	httpmanager.HTTPManager
 	httphandler.HTTPHandler
 	cache.Cache
-	// Services
-	// Handlers
-	// HTTPServer
 }
 
 func InitApplication() *App {
 	//  Here we initialise all dependencies and construct the App struct
 	/* 💡 TODO:
 	1. Init HTTP Server 👍
-	2. Init DB
-	3. Init Cache
+	2. Init Cache 👍
 	4. Init Services 👍
 	5. Init Handlers 👍
 	6. Init RPC Client
