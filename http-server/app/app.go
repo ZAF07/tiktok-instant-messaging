@@ -22,7 +22,6 @@ import (
 */
 
 type App struct {
-	datastore
 	httpmanager.HTTPManager
 	httphandler.HTTPHandler
 	cache.Cache
@@ -46,13 +45,11 @@ func InitApplication() *App {
 
 	cacheClient := cachemanager.NewRedisClient()
 	cache := cache.NewCache(cacheClient.Client) // 💡 TODO: Implement the initialisation of the redis client (NOT THE ADAPTER)
-	db := newDatastore()
 	services := service.NewHTTPService(cache)
 	handlers := httphandler.NewHTTPHandler(services)
 
 	// Construct the App struct
 	a := &App{
-		*db,
 		*httpServer,
 		*handlers,
 		*cache,
@@ -66,19 +63,4 @@ func (a *App) Start() {
 	router.NewRouter(h, a.HTTPHandler)
 	a.StartServer()
 
-}
-
-// DB STUFF
-type datastore struct {
-	db string
-}
-
-func (ds *datastore) GetDatastore() string {
-	return ds.db
-}
-
-func newDatastore() *datastore {
-	return &datastore{
-		db: "DATABASE",
-	}
 }
