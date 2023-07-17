@@ -4,6 +4,7 @@ import (
 	"log"
 
 	httpdomain "github.com/ZAF07/tiktok-instant-messaging/http-server/internal/core/domain/http_domain"
+	"github.com/redis/go-redis/v9"
 )
 
 /*
@@ -14,9 +15,11 @@ import (
 	It's purpose is to store recent messages in-memory for fast retrieval
 */
 
-type Cache struct{}
+type Cache struct {
+	client *redis.Client
+}
 
-func NewCache() *Cache {
+func NewCache(c *redis.Client) *Cache {
 	return &Cache{}
 }
 

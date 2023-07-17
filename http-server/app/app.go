@@ -7,6 +7,7 @@ import (
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/handlers/httphandler"
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/router"
 
+	cachemanager "github.com/ZAF07/tiktok-instant-messaging/http-server/pkg/cache-manager"
 	httpmanager "github.com/ZAF07/tiktok-instant-messaging/http-server/pkg/http-manager"
 )
 
@@ -42,7 +43,9 @@ func InitApplication() *App {
 
 	// Init all the dependencies
 	httpServer := httpmanager.NewHTTPServer()
-	cache := cache.NewCache() // 💡 TODO: Implement the initialisation of the redis client (NOT THE ADAPTER)
+
+	cacheClient := cachemanager.NewRedisClient()
+	cache := cache.NewCache(cacheClient.Client) // 💡 TODO: Implement the initialisation of the redis client (NOT THE ADAPTER)
 	db := newDatastore()
 	services := service.NewHTTPService(cache)
 	handlers := httphandler.NewHTTPHandler(services)
