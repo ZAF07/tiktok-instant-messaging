@@ -7,6 +7,7 @@ package cachemanager
 */
 
 import (
+	"context"
 	"log"
 
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/config"
@@ -37,6 +38,11 @@ func initRedisClient() *redis.Client {
 		DB:       configs.GetCachedatabase(), // use default DB
 	})
 
-	// rdb.Conn()
+	ctx := context.Background()
+	er := rdb.Ping(ctx)
+	if err != nil {
+		log.Fatalf("error connectingto redis: %v", er)
+	}
+	rdb.Conn()
 	return rdb
 }

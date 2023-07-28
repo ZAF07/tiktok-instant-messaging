@@ -29,17 +29,31 @@ func NewHTTPHandler(s ports.IHTTPService) *HTTPHandler {
 
 func (h *HTTPHandler) Push(c *gin.Context) {
 	msg := httpdomain.Message{
-		Text:   "Test message",
+		Text:   "Test message from adapter. But this will eventually come from the request. I am a loooooooooong ass message. I am trying to get redis to caoture the length of the string in size",
 		Sender: "Test Sender",
 	}
 
-	res := h.service.Push(msg)
+	res, err := h.service.Push(msg)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"msg":   "failed to save message",
+			"error": err,
+		})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{
 		"msg": res,
 	})
 }
 func (h *HTTPHandler) Pull(c *gin.Context) {
-	res := h.service.Pull()
+	res, err := h.service.Pull()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"msg":    "failed to get key",
+			"error:": err,
+		})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{
 		"msg": res,
 	})
