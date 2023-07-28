@@ -16,6 +16,7 @@ type HTTPServiceConfig struct {
 
 type Http struct {
 	Port         string   `mapstructure:"port"`
+	Network      string   `mapstructure:"network"`
 	ReadTimeout  int      `mapstructure:"readTimeout"`
 	WriteTimeout int      `mapstructure:"writeTimeout"`
 	AllowMethods []string `mapsturcture:"http_allow_methods"`
@@ -52,6 +53,9 @@ func GetConfig() (*ApplicationConfig, error) {
 
 func (ac *ApplicationConfig) GetPortHTTP() string {
 	return fmt.Sprintf(":%v", ac.config.Http.Port)
+}
+func (ac *ApplicationConfig) GetHTTPNetwork() string {
+	return ac.config.Network
 }
 
 func (ac *ApplicationConfig) GetReadTimeoutHTTP() int {

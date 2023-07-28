@@ -1,5 +1,6 @@
 http:
   port: 8000
+  network: tcp
   readTimeout: 15
   writeTimeout: 15
   http_allow_methods:

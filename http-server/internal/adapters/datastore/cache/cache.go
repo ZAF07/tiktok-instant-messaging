@@ -15,14 +15,14 @@ import (
 	It's purpose is to store recent messages in-memory for fast retrieval
 */
 
-type Cache struct {
+type RedisCache struct {
 	client *redis.Client
 }
 
-func NewCache(c *redis.Client) *Cache {
-	return &Cache{}
+func NewRedisCache(c *redis.Client) *RedisCache {
+	return &RedisCache{}
 }
 
-func (c *Cache) Save(msg httpdomain.Message) {
+func (c *RedisCache) Save(msg httpdomain.Message) {
 	log.Printf("Saving to cache!!: %+v\n", msg)
 }

@@ -2,6 +2,7 @@ package httpmanager
 
 import (
 	"log"
+	"net"
 	"net/http"
 	"time"
 
@@ -19,6 +20,7 @@ type HTTPManager struct {
 	server *http.Server
 }
 
+// cmux -> httpserver(includes the gin engine) -> routers -> handlers
 func NewHTTPServer() *HTTPManager {
 	c, err := config.GetConfig()
 	if err != nil {
@@ -45,8 +47,13 @@ func (h *HTTPManager) GetHandler() *gin.Engine {
 	return h.server.Handler.(*gin.Engine)
 }
 
-func (h *HTTPManager) StartServer() {
-	if err := h.server.ListenAndServe(); err != nil {
-		log.Fatalf("error starting HTTP server. error msg: %v", err)
+func (h *HTTPManager) StartHTTPServer(l net.Listener) {
+
+	if err := h.server.Serve(l); err != nil {
+		log.Fatalf("error establishing http server")
 	}
+
+	// if err := h.server.ListenAndServe(); err != nil {
+	// 	log.Fatalf("error starting HTTP server. error msg: %v", err)
+	// }
 }

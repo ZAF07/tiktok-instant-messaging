@@ -6,6 +6,7 @@ require (
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/redis/go-redis/v9 v9.0.5
+	github.com/soheilhy/cmux v0.1.5
 	github.com/spf13/viper v1.16.0
 	google.golang.org/grpc v1.55.0
 )
