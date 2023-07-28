@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	httpdomain "github.com/ZAF07/tiktok-instant-messaging/http-server/internal/core/domain/http_domain"
-	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/core/ports"
+	httpdomain "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/domain/http_domain"
+	"github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/ports"
 )
 
 type HTTPService struct {

@@ -4,15 +4,15 @@ import (
 	"log"
 	"net"
 
-	"github.com/ZAF07/tiktok-instant-messaging/http-server/config"
-	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/adapters/datastore/cache"
-	msghandler "github.com/ZAF07/tiktok-instant-messaging/http-server/internal/adapters/handlers/message_handler"
-	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/core/ports"
-	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/core/service"
+	"github.com/ZAF07/tiktok-instant-messaging/message-service/config"
+	"github.com/ZAF07/tiktok-instant-messaging/message-service/internal/adapters/datastore/cache"
+	msghandler "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/adapters/handlers/message_handler"
+	"github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/ports"
+	"github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/service"
 	"github.com/soheilhy/cmux"
 
-	cachemanager "github.com/ZAF07/tiktok-instant-messaging/http-server/internal/infrastructure/cache-manager"
-	httpmanager "github.com/ZAF07/tiktok-instant-messaging/http-server/internal/infrastructure/http-manager"
+	cachemanager "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/infrastructure/cache-manager"
+	httpmanager "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/infrastructure/http-manager"
 )
 
 /*

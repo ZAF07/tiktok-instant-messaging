@@ -4,8 +4,9 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
-	httpdomain "github.com/ZAF07/tiktok-instant-messaging/http-server/internal/core/domain/http_domain"
+	httpdomain "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/domain/http_domain"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -27,10 +28,25 @@ func NewRedisCache(c *redis.Client) *RedisCache {
 	}
 }
 
+type usersMsg struct {
+	messages []msg
+}
+
+type msg struct {
+	chatID    string
+	sender    string
+	text      string
+	timeStamp int
+}
+
+// Keys in cache-> (chatid:json string)
+
+// When saving messages to cache, i want to store it as a JSON string
 func (c *RedisCache) Save(msg httpdomain.Message) error {
 	ctx := context.Background()
 
-	if err := c.client.Set(ctx, "test-key", msg.Text, 0).Err(); err != nil {
+	ttl := 300 * time.Second
+	if err := c.client.Set(ctx, "test-key", msg.Text, ttl).Err(); err != nil {
 		return err
 	}
 	return nil

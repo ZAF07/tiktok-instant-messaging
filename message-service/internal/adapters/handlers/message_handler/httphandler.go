@@ -3,8 +3,8 @@ package messagehandler
 import (
 	"net/http"
 
-	httpdomain "github.com/ZAF07/tiktok-instant-messaging/http-server/internal/core/domain/http_domain"
-	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/core/ports"
+	httpdomain "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/domain/http_domain"
+	"github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/ports"
 	"github.com/gin-gonic/gin"
 )
 
@@ -27,6 +27,7 @@ func NewHTTPHandler(s ports.IHTTPService) *HTTPHandler {
 	}
 }
 
+// When a user pushes a new message, i want to store it in the cache first (Write-through strategy)
 func (h *HTTPHandler) Push(c *gin.Context) {
 	msg := httpdomain.Message{
 		Text:   "Test message from adapter. But this will eventually come from the request. I am a loooooooooong ass message. I am trying to get redis to caoture the length of the string in size",

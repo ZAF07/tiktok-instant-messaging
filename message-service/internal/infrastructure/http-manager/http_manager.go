@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ZAF07/tiktok-instant-messaging/http-server/config"
+	"github.com/ZAF07/tiktok-instant-messaging/message-service/config"
 	"github.com/gin-gonic/gin"
 )
 

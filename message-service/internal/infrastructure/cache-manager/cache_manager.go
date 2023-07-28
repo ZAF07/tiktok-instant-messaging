@@ -10,7 +10,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/ZAF07/tiktok-instant-messaging/http-server/config"
+	"github.com/ZAF07/tiktok-instant-messaging/message-service/config"
 	"github.com/redis/go-redis/v9"
 )
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/ZAF07/tiktok-instant-messaging/http-server/config"
+	"github.com/ZAF07/tiktok-instant-messaging/message-service/config"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
