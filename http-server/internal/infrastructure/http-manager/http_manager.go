@@ -53,7 +53,4 @@ func (h *HTTPManager) StartHTTPServer(l net.Listener) {
 		log.Fatalf("error establishing http server")
 	}
 
-	// if err := h.server.ListenAndServe(); err != nil {
-	// 	log.Fatalf("error starting HTTP server. error msg: %v", err)
-	// }
 }
