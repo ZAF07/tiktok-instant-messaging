@@ -27,6 +27,11 @@ datastore:
   ssl: disable
   max_conns: 50
 
+cache:
+  host: "localhost:6379"
+  password: ""
+  database: 0
+
   # 💡 TODO: INCLUDE CONFIGS FORR REDIS SERVER
   # 💡 TODO: ADD GITHOOKS FOR CHECKS ON COMMIT
   # 💡 TODO: SET UP COMPOSE TO START ALL SERVICES AT ONCE IN A UNIFORM ENVIRONMENT

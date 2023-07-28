@@ -7,6 +7,9 @@ package cachemanager
 */
 
 import (
+	"log"
+
+	"github.com/ZAF07/tiktok-instant-messaging/http-server/config"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -23,11 +26,17 @@ func NewRedisClient() *CacheManager {
 }
 
 func initRedisClient() *redis.Client {
+	configs, err := config.GetConfig()
+	if err != nil {
+		log.Fatalf("error getting configs in redis manager: %v", err)
+	}
+
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
+		Addr:     configs.GetCacheHost(),
+		Password: configs.GetCachePassword(), // no password set
+		DB:       configs.GetCachedatabase(), // use default DB
 	})
-	rdb.Conn()
+
+	// rdb.Conn()
 	return rdb
 }

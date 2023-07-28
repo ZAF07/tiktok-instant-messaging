@@ -1,6 +1,7 @@
 package messagehandler
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/config"
@@ -13,6 +14,7 @@ func (h *HTTPHandler) InitRoutes(r *gin.Engine) {
 	if err != nil {
 		log.Fatalf("error loading application config file: %v", err)
 	}
+	fmt.Println("CORS:: ", config.GetCorsAllowOrigins())
 	r.Use(cors.New(cors.Config{
 		AllowCredentials: false,
 		AllowOrigins:     config.GetCorsAllowOrigins(),

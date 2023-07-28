@@ -10,8 +10,9 @@ var appConfig *ApplicationConfig
 var once sync.Once
 
 type HTTPServiceConfig struct {
-	Http `mapstructure:"http"`
-	Rpc  `mapstructure:"rpc"`
+	Http  `mapstructure:"http"`
+	Rpc   `mapstructure:"rpc"`
+	Cache `mapstructure:"cache"`
 }
 
 type Http struct {
@@ -28,6 +29,12 @@ type Rpc struct {
 	Method      string `mapstructure:"method"`
 	MaxConAge   int    `mapstructure:"max_con_age"`
 	MaxConGrace int    `mapstructure:"max_con_grace"`
+}
+
+type Cache struct {
+	Host     string `mapstructure:"host"`
+	Password string `mapstructure:"password"`
+	Database int    `mapstructure:"database"`
 }
 
 type ApplicationConfig struct {
@@ -51,6 +58,7 @@ func GetConfig() (*ApplicationConfig, error) {
 	return nil, errors.New("config is not yet initialised")
 }
 
+// HTTP configs
 func (ac *ApplicationConfig) GetPortHTTP() string {
 	return fmt.Sprintf(":%v", ac.config.Http.Port)
 }
@@ -83,4 +91,17 @@ func (ac *ApplicationConfig) GetMaxConAgeRPC() int {
 }
 func (ac *ApplicationConfig) GetMaxConGraceRPC() int {
 	return ac.config.Rpc.MaxConGrace
+}
+
+// Cache configs
+func (ac *ApplicationConfig) GetCacheHost() string {
+	return ac.config.Cache.Host
+}
+
+func (ac *ApplicationConfig) GetCachePassword() string {
+	return ac.config.Cache.Password
+}
+
+func (ac *ApplicationConfig) GetCachedatabase() int {
+	return ac.config.Cache.Database
 }
