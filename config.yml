@@ -2,8 +2,12 @@ http:
   port: 8000
   readTimeout: 15
   writeTimeout: 15
+  http_allow_methods:
+    - GET
+    - POST
+
   cors_allow_origin:
-  - "http://localhost:8000"
+    - "http://localhost:8000"
 
 rpc:
   port: 9000
@@ -19,7 +23,7 @@ datastore:
   password: ""
   name: "tiktok_instant_message"
   ssl: disable
-  max_conns: 50 
+  max_conns: 50
 
   # 💡 TODO: INCLUDE CONFIGS FORR REDIS SERVER
   # 💡 TODO: ADD GITHOOKS FOR CHECKS ON COMMIT

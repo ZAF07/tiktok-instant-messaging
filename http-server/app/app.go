@@ -2,13 +2,12 @@ package app
 
 import (
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/config"
+	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/adapters/datastore/cache"
+	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/adapters/handlers/httphandler"
 	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/core/service"
-	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/datastore/cache"
-	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/handlers/httphandler"
-	"github.com/ZAF07/tiktok-instant-messaging/http-server/internal/router"
 
-	cachemanager "github.com/ZAF07/tiktok-instant-messaging/http-server/pkg/cache-manager"
-	httpmanager "github.com/ZAF07/tiktok-instant-messaging/http-server/pkg/http-manager"
+	cachemanager "github.com/ZAF07/tiktok-instant-messaging/http-server/internal/infrastructure/cache-manager"
+	httpmanager "github.com/ZAF07/tiktok-instant-messaging/http-server/internal/infrastructure/http-manager"
 )
 
 /*
@@ -59,8 +58,9 @@ func InitApplication() *App {
 
 // Start starts the entire HTTP-SERVER application
 func (a *App) Start() {
+	// Initialise all service routes and start the server
 	h := a.GetHandler()
-	router.NewRouter(h, a.HTTPHandler)
+	a.HTTPHandler.InitRoutes(h)
 	a.StartServer()
 
 }

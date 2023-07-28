@@ -18,6 +18,7 @@ type Http struct {
 	Port         string   `mapstructure:"port"`
 	ReadTimeout  int      `mapstructure:"readTimeout"`
 	WriteTimeout int      `mapstructure:"writeTimeout"`
+	AllowMethods []string `mapsturcture:"http_allow_methods"`
 	Cors         []string `mapstructure:"cors_allow_origin"`
 }
 
@@ -61,6 +62,9 @@ func (ac *ApplicationConfig) GetWriteTimeoutHTTP() int {
 }
 func (ac *ApplicationConfig) GetCorsAllowOrigins() []string {
 	return ac.config.Cors
+}
+func (ac *ApplicationConfig) GetHTTPAllowMethods() []string {
+	return ac.config.AllowMethods
 }
 
 // RPC SERVICE CONFIG
