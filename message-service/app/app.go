@@ -29,8 +29,7 @@ type App struct {
 	httpmanager.HTTPManager
 	msghandler.HTTPHandler
 	// cache.Cache
-	c      ports.ICacheStore
-	config *config.ApplicationConfig
+	c ports.ICacheStore
 }
 
 func InitApplication() *App {
@@ -44,7 +43,7 @@ func InitApplication() *App {
 	*/
 
 	// Load application configs into global struct
-	config := config.LoadConfig()
+	config.LoadConfig()
 
 	// Init all the dependencies
 	httpServer := httpmanager.NewHTTPServer()
@@ -60,7 +59,6 @@ func InitApplication() *App {
 		*httpServer,
 		*handlers,
 		cache,
-		config,
 	}
 	return a
 }
@@ -73,8 +71,12 @@ func (a *App) Start() {
 }
 
 func (a *App) startServer() {
-	port := a.config.GetPortHTTP()
-	network := a.config.GetHTTPNetwork()
+	config, err := config.GetConfig()
+	if err != nil {
+		log.Fatalf("failure getting config from app.startServer: %v", err)
+	}
+	port := config.GetPortHTTP()
+	network := config.GetHTTPNetwork()
 
 	lis, err := net.Listen(network, port)
 	if err != nil {
