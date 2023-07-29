@@ -21,11 +21,11 @@ datastore:
   environment: dev
   port: 5432
   host: localhost
-  user: user
+  user: user_name
   password: ""
   name: db_name
   ssl: enable
-  max_conns: 500000000
+  max_conns: 500000
 
 cache:
   host: "localhost:6379"
