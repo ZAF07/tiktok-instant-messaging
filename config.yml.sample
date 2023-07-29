@@ -19,6 +19,7 @@ rpc:
   max_con_age: 10
   max_con_grace: 10
 
+// credentials for your databaes layer (using postgres for my case)
 datastore:
   environment: dev
   port: 5432
@@ -29,11 +30,8 @@ datastore:
   ssl: enable
   max_conns: 500000000
 
+ # credentials for your cache layer (using redis for my case)
 cache:
   host: "localhost:6379"
   password: ""
   database: 0
-
-  # 💡 TODO: INCLUDE CONFIGS FORR REDIS SERVER
-  # 💡 TODO: ADD GITHOOKS FOR CHECKS ON COMMIT
-  # 💡 TODO: SET UP COMPOSE TO START ALL SERVICES AT ONCE IN A UNIFORM ENVIRONMENT
