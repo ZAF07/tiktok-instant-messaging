@@ -1,3 +1,5 @@
+🚨 Replace with your credentials 
+
 # Configs for the HTTP server, exposing the application to the outside world
 http:
   port: 8000
