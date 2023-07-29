@@ -43,7 +43,6 @@ func (h *HTTPHandler) Push(c *gin.Context) {
 		responseHelper.BadRequestErr(c, "Missing required fields for the new message", err.Error())
 	}
 
-	// err := h.service.Push(newMsg)
 	if err := h.service.Push(newMsg); err != nil {
 		responseHelper.InternalErr(c, "failed to save message", err.Error())
 		return
