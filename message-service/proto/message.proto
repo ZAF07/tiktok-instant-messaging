@@ -1,0 +1,16 @@
+syntax = "proto3";
+package messages;
+
+option go_package = "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/domain/message_service_domain";
+
+message Message {
+    string id = 1 [json_name="id"]; 
+    string chatId = 2 [json_name="chat_id"];
+    string senderId = 3 [json_name="sender_id"];
+    string content = 4 [json_name="content"];
+    int32 timeStamp = 5 [json_name="time_stamp"];
+}
+
+message Messages {
+    repeated Message messages = 1;
+}

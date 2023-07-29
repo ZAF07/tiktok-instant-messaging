@@ -2,11 +2,11 @@ package cache
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"time"
 
-	httpdomain "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/domain/http_domain"
+	messageProto "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/domain/message-service/proto"
+	"github.com/golang/protobuf/proto"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -28,45 +28,43 @@ func NewRedisCache(c *redis.Client) *RedisCache {
 	}
 }
 
-type usersMsg struct {
-	messages []msg
+type ChatMessages struct {
+	Messages []Message
 }
 
-type msg struct {
-	chatID    string
-	sender    string
-	text      string
-	timeStamp int
+type Message struct {
+	ID        string
+	ChatID    string // ChatID is the ID between two users joined
+	SenderID  string
+	Content   string
+	TimeStamp int
 }
 
 // Keys in cache-> (chatid:json string)
 
 // When saving messages to cache, i want to store it as a JSON string
-func (c *RedisCache) Save(msg httpdomain.Message) error {
+func (c *RedisCache) Save(msg *messageProto.Message) error {
+	b, err := proto.Marshal(msg)
+	if err != nil {
+		log.Fatalf("error marshalling struct into protobuf: %v", err)
+	}
 	ctx := context.Background()
 
 	ttl := 300 * time.Second
-	if err := c.client.Set(ctx, "test-key", msg.Text, ttl).Err(); err != nil {
+	if err := c.client.Set(ctx, "test-key", b, ttl).Err(); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (c *RedisCache) Get(key string) (string, error) {
+func (c *RedisCache) Get(key string) ([]byte, error) {
 	ctx := context.Background()
 
-	// 🚨 Testing to see how much data is used when a sting of such length is stored
-	strLen := c.client.StrLen(ctx, "test-key")
-	if se := strLen.Err(); se != nil {
-		log.Fatalf("error getting strlen: %v", se)
-	}
-	fmt.Println("SIXE +++++> y ", strLen.Val())
-
-	res := c.client.Get(ctx, "test-key")
-	r, err := res.Result()
+	res, err := c.client.Get(ctx, "test-key").Result()
 	if err != nil {
 		log.Printf("error getting string from cache: %v", err)
-		return "", err
+		return nil, err
 	}
-	return r, nil
+
+	return []byte(res), nil
 }

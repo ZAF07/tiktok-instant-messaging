@@ -39,7 +39,8 @@ func initRedisClient() *redis.Client {
 	})
 
 	ctx := context.Background()
-	er := rdb.Ping(ctx)
+	// 💡 Figure this out
+	er := rdb.Ping(ctx).Err()
 	if err != nil {
 		log.Fatalf("error connectingto redis: %v", er)
 	}

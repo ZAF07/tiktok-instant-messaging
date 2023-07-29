@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ZAF07/tiktok-instant-messaging/http-server/app"
+	"github.com/ZAF07/tiktok-instant-messaging/message-service/app"
 )
 
 /*

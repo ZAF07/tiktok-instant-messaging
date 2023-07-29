@@ -13,6 +13,8 @@ import (
 
 	cachemanager "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/infrastructure/cache-manager"
 	httpmanager "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/infrastructure/http-manager"
+
+	_ "net/http/pprof"
 )
 
 /*
@@ -71,6 +73,10 @@ func (a *App) Start() {
 }
 
 func (a *App) startServer() {
+	// 💡 Implement pprof testing
+	// go func() {
+	// 	log.Println(http.ListenAndServe("localhost:6060", nil))
+	// }()
 	config, err := config.GetConfig()
 	if err != nil {
 		log.Fatalf("failure getting config from app.startServer: %v", err)

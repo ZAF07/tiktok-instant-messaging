@@ -1,7 +1,7 @@
 package apis
 
 import (
-	rpcmanager "github.com/ZAF07/tiktok-instant-messaging/http-server/internal/infrastructure/rpc-manager"
+	rpcmanager "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/infrastructure/rpc-manager"
 	"google.golang.org/grpc"
 )
 

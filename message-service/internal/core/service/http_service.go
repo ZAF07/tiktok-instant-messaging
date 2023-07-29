@@ -1,11 +1,13 @@
 package service
 
 import (
-	"fmt"
+	"errors"
 	"log"
 
-	httpdomain "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/domain/http_domain"
+	messageProto "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/domain/message-service/proto"
+	message "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/domain/message_dto"
 	"github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/ports"
+	"github.com/golang/protobuf/proto"
 )
 
 type HTTPService struct {
@@ -18,20 +20,51 @@ func NewHTTPService(c ports.ICacheStore) *HTTPService {
 	}
 }
 
-func (h *HTTPService) Pull() (string, error) {
-	res, err := h.cache.Get("test-value")
+func (h *HTTPService) Pull() (*message.Message, error) {
+	// Get key:value from cache
+	res, err := h.cache.Get("test-key")
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return res, nil
+	// Unmarshal into Proto
+	result := &messageProto.Message{}
+	uErr := proto.Unmarshal(res, result)
+	if uErr != nil {
+		log.Fatalf("error unmarshalling into struct: %v", uErr)
+	}
+
+	// Convert into DTO
+	foundMsg := &message.Message{
+		Id:        result.Id,
+		ChatId:    result.ChatId,
+		SenderId:  result.SenderId,
+		Content:   result.Content,
+		TimeStamp: result.TimeStamp,
+	}
+	return foundMsg, nil
 }
 
-func (h *HTTPService) Push(msg httpdomain.Message) (string, error) {
-	if err := h.cache.Save(msg); err != nil {
-		log.Printf("error saving to cache: %v", err)
-		return "", err
+func (h *HTTPService) Push(msg *message.Message) error {
+	mockTextID := "mock_text_id"
+	// Validate the new message
+	if msg.Content == "" {
+		return errors.New("text content cannot be empty")
 	}
-	res := fmt.Sprintf("Pushing service is done saving: %+v, from %s", msg.Text, msg.Sender)
-	return res, nil
+
+	msg.Id = mockTextID
+
+	nm := &messageProto.Message{
+		Id:        msg.Id,
+		ChatId:    msg.ChatId,
+		SenderId:  msg.SenderId,
+		Content:   msg.Content,
+		TimeStamp: msg.TimeStamp,
+	}
+
+	if err := h.cache.Save(nm); err != nil {
+		log.Printf("error saving to cache: %v", err)
+	}
+
+	return nil
 }

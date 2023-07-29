@@ -1,15 +1,19 @@
 package ports
 
-import httpdomain "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/domain/http_domain"
+import (
+	message "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/domain/message_dto"
+
+	messageProto "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/domain/message-service/proto"
+)
 
 // Interfaces which Adapters will imolement in order to interact with the core
 
 type IHTTPService interface {
-	Push(msg httpdomain.Message) (string, error)
-	Pull() (string, error)
+	Push(msg *message.Message) error
+	Pull() (*message.Message, error)
 }
 
 type ICacheStore interface {
-	Save(msg httpdomain.Message) error
-	Get(string) (string, error)
+	Save(msg *messageProto.Message) error
+	Get(string) ([]byte, error)
 }
