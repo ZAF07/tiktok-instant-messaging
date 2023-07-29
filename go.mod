@@ -7,6 +7,7 @@ require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-playground/validator/v10 v10.14.0
 	github.com/golang/protobuf v1.5.3
+	github.com/google/uuid v1.3.0
 	github.com/redis/go-redis/v9 v9.0.5
 	github.com/soheilhy/cmux v0.1.5
 	github.com/spf13/viper v1.16.0

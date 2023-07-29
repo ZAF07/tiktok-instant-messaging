@@ -10,7 +10,7 @@ import (
 
 type IHTTPService interface {
 	Push(msg *message.Message) error
-	Pull() (*message.Message, error)
+	Pull() (*messageProto.Messages, error)
 }
 
 type ICacheStore interface {

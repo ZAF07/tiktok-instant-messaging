@@ -28,30 +28,41 @@ func NewRedisCache(c *redis.Client) *RedisCache {
 	}
 }
 
-type ChatMessages struct {
-	Messages []Message
-}
-
-type Message struct {
-	ID        string
-	ChatID    string // ChatID is the ID between two users joined
-	SenderID  string
-	Content   string
-	TimeStamp int
-}
-
-// Keys in cache-> (chatid:json string)
-
 // When saving messages to cache, i want to store it as a JSON string
 func (c *RedisCache) Save(msg *messageProto.Message) error {
-	b, err := proto.Marshal(msg)
+	ctx := context.Background()
+	ttl := 25 * time.Second
+
+	textHistory := &messageProto.Messages{}
+
+	// Get the value in cache with key == key (IF EXISTS)
+	oldTextsBin, getErr := c.client.Get(ctx, "test-key").Bytes()
+	if getErr == nil {
+		log.Println("Found old keys in cache")
+		// 💡 If there are old text content in the history
+		// Unmarshall into proto
+		unmarshalErr := proto.Unmarshal(oldTextsBin, textHistory)
+		if unmarshalErr != nil {
+			log.Printf("error unmarshalling into textHistory in cache.Save(): %v\n", unmarshalErr)
+			return nil
+		}
+	}
+
+	// Keep only up to 10 text history in the cache
+	if len(textHistory.Messages) >= 2 {
+		textHistory.Messages = append(textHistory.Messages[1:], msg)
+	} else {
+		textHistory.Messages = append(textHistory.Messages, msg)
+	}
+
+	b, err := proto.Marshal(textHistory)
 	if err != nil {
 		log.Fatalf("error marshalling struct into protobuf: %v", err)
+		return err
 	}
-	ctx := context.Background()
 
-	ttl := 300 * time.Second
 	if err := c.client.Set(ctx, "test-key", b, ttl).Err(); err != nil {
+		log.Fatalf("error setting value to cache: %v", err)
 		return err
 	}
 	return nil
@@ -60,11 +71,11 @@ func (c *RedisCache) Save(msg *messageProto.Message) error {
 func (c *RedisCache) Get(key string) ([]byte, error) {
 	ctx := context.Background()
 
-	res, err := c.client.Get(ctx, "test-key").Result()
+	res, err := c.client.Get(ctx, "test-key").Bytes()
 	if err != nil {
-		log.Printf("error getting string from cache: %v", err)
+		log.Printf("error getting string from cache: %v\n", err)
 		return nil, err
 	}
 
-	return []byte(res), nil
+	return res, nil
 }

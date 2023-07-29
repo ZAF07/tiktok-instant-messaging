@@ -1,16 +1,11 @@
 package messagehandler
 
 import (
-	"fmt"
 	"log"
 	"net/http"
-	"os"
-	"runtime/pprof"
-	"time"
 
 	message "github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/domain/message_dto"
 	"github.com/ZAF07/tiktok-instant-messaging/message-service/internal/core/ports"
-	"github.com/go-playground/validator/v10"
 
 	// responseHelper "github.com/ZAF07/tiktok-instant-messaging/messaeg-service/helper/http_response_helper"
 	responseHelper "github.com/ZAF07/tiktok-instant-messaging/message-service/helper/http_response_helper"
@@ -38,19 +33,15 @@ func NewHTTPHandler(s ports.IHTTPService) *HTTPHandler {
 
 // When a user pushes a new message, i want to store it in the cache first (Write-through strategy)
 func (h *HTTPHandler) Push(c *gin.Context) {
-	validate := validator.New()
-	// Receive msg, do validation
 	newMsg := &message.Message{}
-	if bErr := c.ShouldBindJSON(newMsg); bErr != nil {
-		log.Fatalf("error binding request body to struct: %v", bErr)
+	if bindErr := c.ShouldBindJSON(newMsg); bindErr != nil {
+		log.Fatalf("error binding request body to struct: %v", bindErr)
+		responseHelper.InternalErr(c, "Internal error. Try again", bindErr.Error())
 	}
 
-	if err := validate.Struct(newMsg); err != nil {
-		responseHelper.ReturnError(c, "Missing required fields for the new message", err.Error())
-		return
+	if err := newMsg.Validate(); err != nil {
+		responseHelper.BadRequestErr(c, "Missing required fields for the new message", err.Error())
 	}
-
-	newMsg.TimeStamp = int32(time.Now().Unix())
 
 	err := h.service.Push(newMsg)
 	if err != nil {
@@ -60,6 +51,7 @@ func (h *HTTPHandler) Push(c *gin.Context) {
 		})
 		return
 	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"msg": "Sent message ✅",
 	})
@@ -68,15 +60,15 @@ func (h *HTTPHandler) Pull(c *gin.Context) {
 	// PROFILING ------------------
 
 	// Start profiling
-	f, err := os.Create("performance.prof")
-	if err != nil {
+	// f, err := os.Create("performance.prof")
+	// if err != nil {
 
-		fmt.Println(err)
-		return
+	// 	fmt.Println(err)
+	// 	return
 
-	}
-	pprof.StartCPUProfile(f)
-	defer pprof.StopCPUProfile()
+	// }
+	// pprof.StartCPUProfile(f)
+	// defer pprof.StopCPUProfile()
 	// profiling ------------------
 
 	res, err := h.service.Pull()
